@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+
+# Node/React
+node_modules/
+frontend-react/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Datasets and Images
+dataset/
+data/
+test_images/
+*.jpg
+*.jpeg
+*.png
+*.JPG
+*.JPEG
+*.webp
+*.zip
+*.csv
+*.tar.gz
+
+# ML / Models
+models/*.pt
+models/*.pth
+*.pt
+*.pth
+*.onnx
+*.engine
+*.pb
+*.h5
+*.hdf5
+*.ckpt
+
+# Training and Outputs
+runs/
+wandb/
+backend/uploads/
+backend/outputs/
+outputs/
+logs/
+tmp/
+temp/
+*.log
+
+# Antigravity/Agent Temp
+.system_generated/
+brain/
+scratch/
+scratchpad*.md
+GITHUB_PROJECT_AUDIT.md
+GITHUB_COMMIT_MANIFEST.md

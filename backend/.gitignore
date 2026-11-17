@@ -1,0 +1,13 @@
+# Uploads and Outputs
+uploads/
+outputs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Models
+../models/*.pt

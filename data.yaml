@@ -1,0 +1,13 @@
+# Portable Dataset Configuration for YOLOv8
+# Assuming dataset will be unzipped into dataset/ directory
+path: dataset/
+
+# Relative paths to image directories (adjust as needed if Roboflow structure changes)
+train: train/images
+val: valid/images
+test: test/images
+
+# Classes
+names:
+  0: supporting_tower
+  1: monopole_tower

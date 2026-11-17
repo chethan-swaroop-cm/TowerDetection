@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TowerVision AI Dashboard</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- TOP NAVIGATION -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">TOWERVISION AI</div>
+            <div class="nav-title">AI-Based Tower Component Detection</div>
+        </div>
+        <div class="nav-right">
+            <div class="status-indicator online">
+                <span class="dot"></span> SYSTEM ONLINE
+            </div>
+            <div class="model-info">
+                <span>Model: YOLO Detection</span> | <span>Classes: 2</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <ul class="side-nav">
+                <li class="nav-item">OVERVIEW</li>
+                <li class="nav-item active">INSPECTION</li>
+                <li class="nav-item">RESULTS</li>
+                <li class="nav-item">MODEL STATUS</li>
+            </ul>
+            
+            <!-- MODEL STATUS CARD in sidebar -->
+            <div class="model-status-card">
+                <h3>MODEL STATUS</h3>
+                <div class="status-indicator online"><span class="dot"></span> ONLINE</div>
+                <div class="model-detail"><span>MODEL:</span> YOLO</div>
+                <div class="model-detail"><span>TASK:</span> Object Detection</div>
+                <div class="model-detail"><span>CLASSES:</span> 2</div>
+                <div class="model-classes">
+                    <div>CLASS 01: monopole_tower</div>
+                    <div>CLASS 02: supporting_tower</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HERO / HEADER AREA -->
+            <header class="hero-header">
+                <div class="hero-titles">
+                    <h1>AI Tower Inspection</h1>
+                    <p>Automated detection and localization of tower components using computer vision.</p>
+                </div>
+                <div class="hero-status">
+                    <div class="status-indicator ready" id="global-status-ind"><span class="dot"></span> <span id="global-status-text">READY FOR INSPECTION</span></div>
+                </div>
+            </header>
+
+            <!-- WORKSPACE -->
+            <div class="workspace-grid">
+                <!-- LEFT COLUMN: Upload & Pipeline -->
+                <div class="left-col">
+                    <!-- PROCESSING PIPELINE -->
+                    <div class="pipeline-container workflow-tracker">
+                        <div class="pipeline-step active" id="track-upload">1. IMAGE UPLOAD <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-progress">2. UPLOAD PROGRESS <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-execute">3. EXECUTE <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-quality">4. QUALITY CHECK <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-detection">5. OBJECT DETECTION <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-completion">6. COMPLETION <span class="step-icon">○</span></div>
+                        <div class="pipeline-separator">→</div>
+                        <div class="pipeline-step" id="track-output">7. OUTPUT <span class="step-icon">○</span></div>
+                    </div>
+
+                    <!-- UPLOAD SECTION -->
+                    <div class="panel upload-panel">
+                        <h2>UPLOAD INSPECTION IMAGE</h2>
+                        <div id="drop-zone" class="drop-zone">
+                            <div class="upload-icon">📁</div>
+                            <div class="drop-text">Drag & Drop your tower image here</div>
+                            <div class="drop-or">or</div>
+                            <input type="file" id="file-input" accept=".jpg, .jpeg, .png" hidden>
+                            <button class="btn-outline" id="choose-btn">SELECT IMAGE</button>
+                            <div class="supported-text">Supported: JPG • JPEG • PNG</div>
+                        </div>
+                        
+                        <div id="file-info" class="file-info hidden">
+                            <div class="file-details">
+                                <span class="file-icon">📄</span>
+                                <div class="file-meta">
+                                    <div id="filename" class="filename"></div>
+                                    <div id="filesize" class="filesize"></div>
+                                </div>
+                            </div>
+                            <button class="btn-text" id="remove-btn">✕ REMOVE</button>
+                        </div>
+                        
+                        <!-- Upload Progress Simulation -->
+                        <div id="upload-progress-container" class="hidden" style="margin-bottom: 1rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem; color: var(--text-secondary); font-family: var(--font-mono);">
+                                <span id="upload-progress-label">UPLOADING IMAGE...</span>
+                                <span id="upload-progress-percent">0%</span>
+                            </div>
+                            <div class="conf-bar-bg" style="height: 6px;">
+                                <div id="upload-progress-fill" class="conf-bar-fill" style="width: 0%; background-color: var(--accent-primary); transition: width 0.1s linear;"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="preview-container" class="preview-container hidden">
+                            <img id="image-preview" src="" alt="Image Preview">
+                        </div>
+                    </div>
+
+                    <!-- EXECUTE BUTTON -->
+                    <button class="btn-primary execute-btn" id="execute-btn" disabled>
+                        <span class="btn-icon" id="execute-icon">▶</span> <span id="execute-text">EXECUTE AI ANALYSIS</span>
+                    </button>
+
+                    <!-- IMAGE QUALITY CARD -->
+                    <div id="quality-card" class="panel quality-card hidden">
+                        <h2>IMAGE QUALITY ANALYSIS</h2>
+                        <div class="quality-header">
+                            <div id="quality-status-badge" class="status-badge"></div>
+                        </div>
+                        <div id="quality-reason-container" class="quality-reason hidden">
+                            <strong>Reason:</strong> <span id="quality-reason-text"></span>
+                        </div>
+                        <div class="quality-metrics">
+                            <div class="metric">
+                                <span class="metric-label">Blur Score</span>
+                                <span class="metric-value" id="q-blur">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Exposure</span>
+                                <span class="metric-value" id="q-over">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Underexposure</span>
+                                <span class="metric-value" id="q-under">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Results -->
+                <div class="right-col">
+                    <!-- EMPTY STATE -->
+                    <div id="empty-state" class="panel empty-state">
+                        <div class="empty-icon">⚲</div>
+                        <h2>READY FOR INSPECTION</h2>
+                        <p>Upload a tower image to begin AI analysis.</p>
+                    </div>
+
+                    <!-- ERROR STATE -->
+                    <div id="error-state" class="panel error-state hidden">
+                        <div class="error-icon">⚠</div>
+                        <h2>ANALYSIS FAILED</h2>
+                        <p id="error-message"></p>
+                        <button class="btn-outline" id="retry-btn">ANALYZE ANOTHER IMAGE</button>
+                    </div>
+
+                    <!-- SUCCESS NOTIFICATION -->
+                    <div id="success-notification" class="success-notification hidden" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>✓ ANALYSIS COMPLETE - Tower inspection completed successfully.</span>
+                        <button class="btn-outline" id="reset-success-btn" style="border-color: rgba(16, 185, 129, 0.5); color: var(--success);">ANALYZE ANOTHER IMAGE</button>
+                    </div>
+
+                    <!-- RESULTS CONTAINER -->
+                    <div id="results-container" class="results-container hidden">
+                        
+                        <!-- DETECTION SUMMARY (Stats Cards) -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-title">TOTAL OBJECTS</div>
+                                <div class="stat-value" id="stat-total">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">MONOPOLE TOWER</div>
+                                <div class="stat-value" id="stat-monopole">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">SUPPORTING TOWER</div>
+                                <div class="stat-value" id="stat-supporting">0</div>
+                            </div>
+                        </div>
+
+                        <!-- MAIN DETECTION VIEW -->
+                        <div class="panel main-detection-view">
+                            <div class="panel-header">
+                                <h2>AI DETECTION RESULT</h2>
+                                <div class="status-indicator complete"><span class="dot"></span> DETECTION COMPLETE</div>
+                            </div>
+                            <div class="result-image-wrapper">
+                                <img id="result-image" src="" alt="Processed Image" class="hidden">
+                                <div id="no-result-image" class="hidden">No processed image returned.</div>
+                            </div>
+                            <div class="image-meta">
+                                <span id="img-det-count"></span>
+                            </div>
+                        </div>
+
+                        <!-- CLASS CONFIDENCE PANEL -->
+                        <div class="panel confidence-panel">
+                            <h2>CLASS AVERAGE CONFIDENCE</h2>
+                            <div class="confidence-bars" id="confidence-bars">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- DETECTION TABLE -->
+                        <div class="panel detection-table-panel">
+                            <h2>DETECTED COMPONENTS</h2>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>CLASS</th>
+                                            <th>CONFIDENCE</th>
+                                            <th>BOUNDING BOX</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detection-tbody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

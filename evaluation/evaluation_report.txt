@@ -1,0 +1,28 @@
+TOWERVISION AI - MODEL EVALUATION REPORT
+
+Dataset Configuration:
+----------------------
+Dataset Path: /content/Tower-Detection-2/data.yaml
+Note: The validation/test dataset is NOT present in the local environment (the model was trained on Google Colab).
+Therefore, per-class evaluation, confusion matrix, instance counts, and example prediction images on the test set were not calculated.
+
+Final Model Metrics (extracted from checkpoint validation):
+-----------------------------------------------------------
+1. Precision:  0.9907
+2. Recall:     0.9902
+3. mAP@50:     0.9950
+4. mAP@50-95:  0.9303
+
+5. IoU-related evaluation:
+   Validation Box Loss: 0.3265
+   Validation DFL Loss: 1.0548
+   mAP@50-95 indirectly represents IoU threshold performance across 0.50 to 0.95.
+
+Unavailable Metrics:
+--------------------
+6. Confusion matrix: Not calculated (dataset missing).
+7. Per-class results: Not calculated (dataset missing).
+8. Number of validation/test images: Not calculated (dataset missing).
+9. Number of instances per class: Not calculated (dataset missing).
+10. Example correct detections: Not generated (dataset missing).
+11. Example incorrect/missed detections: Not generated (dataset missing).
